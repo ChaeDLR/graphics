@@ -1,0 +1,9 @@
+.vscode
+
+*.dSYM
+*.cmake
+*.dylib
+*.a
+
+include/*/
+build/debug/*
