@@ -13,5 +13,4 @@ all:
 
 
 clean:
-	rm main.o
-	rm ./main
+	rm ./build/debug/rungraphics
