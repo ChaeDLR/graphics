@@ -5,5 +5,5 @@
 *.dylib
 *.a
 
-include/*/
+include/
 build/debug/*
