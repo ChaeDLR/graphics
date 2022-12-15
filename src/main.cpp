@@ -27,15 +27,6 @@ typedef struct Pixel {
 uint16_t halfw;
 uint16_t halfh;
 
-/// @brief cleanup render and window objects
-void Cleanup() {
-  SDL_DestroyRenderer(App.Componenets.renderer);
-  App.Componenets.renderer = nullptr;
-  SDL_DestroyWindow(App.Componenets.window);
-  App.Componenets.window = nullptr;
-  SDL_Quit();
-}
-
 /// @brief fill rect in the renderer. with offset
 /// @param x position
 /// @param y position
@@ -66,9 +57,21 @@ void DrawPixel(Sint32 x, Sint32 y, SDL_Color color) {
   SDL_RenderFillRect(App.Componenets.renderer, &_rect);
 }
 
+/// @brief cleanup render and window objects
+void Cleanup() {
+  std::cout << "running cleanup" << std::endl;
+  SDL_DestroyRenderer(App.Componenets.renderer);
+  App.Componenets.renderer = nullptr;
+  SDL_DestroyWindow(App.Componenets.window);
+  App.Componenets.window = nullptr;
+  SDL_Quit();
+}
+
 int main(int argc, char *argv[]) {
 
   std::cout << "CDLR Graphics" << std::endl;
+
+  std::atexit(&Cleanup);
 
   SDL_Init(SDL_INIT_VIDEO)
       ? std::cout << "failed sdl2 init: " << SDL_GetError() << std::endl
@@ -115,12 +118,14 @@ int main(int argc, char *argv[]) {
       switch (event.type) {
 
       case SDL_EventType::SDL_QUIT:
-        Cleanup();
+        // Cleanup();
+        std::exit(0);
         return 0;
 
       case SDL_KEYDOWN:
         if (event.key.keysym.scancode == SDL_SCANCODE_ESCAPE) {
-          Cleanup();
+          // Cleanup();
+          std::exit(0);
           return 0;
         }
 
