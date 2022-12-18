@@ -5,7 +5,7 @@ SRC_FILES = $(wildcard $(SRC_DIR)/*.cpp)
 OBJ_NAME = rungraphics
 INCLUDE_PATHS = -Iinclude
 LIBRARY_PATHS = -Llib
-CFLAGS = -Wall -O0 -g
+CFLAGS = -Wall -O0 -g -std=c++20
 LINKER_FLAGS = -lsdl2
 
 all:

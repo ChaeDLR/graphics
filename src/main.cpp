@@ -1,6 +1,8 @@
 #define SDL_MAIN_HANDLED
+#include <../headers/colors.h>
 #include <../headers/draw.h>
 #include <SDL2/SDL.h>
+
 #include <iostream>
 
 struct {
@@ -20,15 +22,13 @@ uint16_t halfh;
 /// @brief convert coordinate system
 /// @param x
 /// @param y
-/// @return
-inline Sint32 ConvertAxis(int &x, int &y) {
+inline void ConvertAxis(int &x, int &y) {
   x += halfw;
   y = halfh - y;
 }
 
 /// @brief cleanup render and window objects
 void Cleanup() {
-  std::cout << "running cleanup" << std::endl;
   SDL_DestroyRenderer(App.Componenets.renderer);
   App.Componenets.renderer = nullptr;
   SDL_DestroyWindow(App.Componenets.window);
@@ -37,7 +37,6 @@ void Cleanup() {
 }
 
 int main(int argc, char *argv[]) {
-
   std::cout << "CDLR Graphics" << std::endl;
 
   std::atexit(&Cleanup);
@@ -78,7 +77,7 @@ int main(int argc, char *argv[]) {
 
   SDL_Event event;
 
-  Pixel pix = {0, 0};
+  Pixel pix = {0, 0, colors.RED};
   ConvertAxis(pix.x, pix.y);
 
   for (;;) {
@@ -89,27 +88,28 @@ int main(int argc, char *argv[]) {
 #pragma region checkevents
     if (SDL_PollEvent(&event)) {
       switch (event.type) {
-
-      case SDL_EventType::SDL_QUIT:
-        std::exit(0);
-        return 0;
-
-      case SDL_KEYDOWN:
-        if (event.key.keysym.scancode == SDL_SCANCODE_ESCAPE) {
+        case SDL_EventType::SDL_QUIT:
           std::exit(0);
           return 0;
-        }
 
-      case SDL_MOUSEBUTTONDOWN:
-        if (event.button.button == 1) {
-          pix.x = event.button.x;
-          pix.y = event.button.y;
-        }
+        case SDL_KEYDOWN:
+          if (event.key.keysym.scancode == SDL_SCANCODE_ESCAPE) {
+            std::exit(0);
+            return 0;
+          } else if (event.key.keysym.scancode == SDL_SCANCODE_C) {
+            ChangeIntensity(pix.color, 2);
+          }
+
+        case SDL_MOUSEBUTTONDOWN:
+          if (event.button.button == 1) {
+            pix.x = event.button.x;
+            pix.y = event.button.y;
+          }
       }
     }
 #pragma endregion
 
-    pixel(pix.x, pix.y, colors.RED, App.Componenets.renderer);
+    DrawPixel(pix.x, pix.y, pix.color, App.Componenets.renderer);
     SDL_RenderPresent(App.Componenets.renderer);
   }
 

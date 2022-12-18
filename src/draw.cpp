@@ -4,7 +4,7 @@
 /// @param x
 /// @param y
 /// @param color
-void pixel(Sint32 x, Sint32 y, SDL_Color color, SDL_Renderer *renderer) {
+void DrawPixel(Sint32 x, Sint32 y, SDL_Color color, SDL_Renderer *renderer) {
   SDL_Rect _rect;
   _rect.x = x;
   _rect.y = y;
