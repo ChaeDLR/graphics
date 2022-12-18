@@ -9,3 +9,5 @@ struct Colors {
 } colors;
 
 void ChangeIntensity(SDL_Color &color, int intensity);
+
+SDL_Color AddColors(SDL_Color _color1, SDL_Color _color2);

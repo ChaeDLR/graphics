@@ -19,6 +19,10 @@ struct {
 uint16_t halfw;
 uint16_t halfh;
 
+SDL_Event event;
+Pixel pix;
+Pixel pix2;
+
 /// @brief convert coordinate system
 /// @param x
 /// @param y
@@ -75,9 +79,9 @@ int main(int argc, char *argv[]) {
   }
 #pragma endregion
 
-  SDL_Event event;
-
-  Pixel pix = {0, 0, colors.RED};
+  SDL_Color addedColor;
+  pix = {0, 0, colors.RED};
+  pix2 = {0, 0, colors.BLUE};
   ConvertAxis(pix.x, pix.y);
 
   for (;;) {
@@ -109,6 +113,7 @@ int main(int argc, char *argv[]) {
     }
 #pragma endregion
 
+    addedColor = AddColors(pix.color, pix2.color);
     DrawPixel(pix.x, pix.y, pix.color, App.Componenets.renderer);
     SDL_RenderPresent(App.Componenets.renderer);
   }
