@@ -1,7 +1,7 @@
 #define SDL_MAIN_HANDLED
-#include <../headers/colors.h>
-#include <../headers/draw.h>
 #include <SDL2/SDL.h>
+#include <colors.h>
+#include <draw.h>
 
 #include <iostream>
 
