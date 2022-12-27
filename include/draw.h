@@ -1,9 +1,11 @@
 #pragma once
 #include <SDL2/SDL.h>
 
+#include <cinttypes>
+
 struct Pixel {
-  Sint32 x;
-  Sint32 y;
+  int x;
+  int y;
   SDL_Color color;
 };
 

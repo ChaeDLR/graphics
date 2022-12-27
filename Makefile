@@ -9,8 +9,8 @@ CFLAGS = -Wall -O0 -g -std=c++20
 LINKER_FLAGS = -lsdl2
 
 all:
-	$(CC) $(CFLAGS) $(LINKER_FLAGS) $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(SRC_FILES) -o $(BUILD_DIR)/$(OBJ_NAME)
-
+#	$(CC) $(CFLAGS) $(LINKER_FLAGS) $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(SRC_FILES) -o $(BUILD_DIR)/$(OBJ_NAME)
+	$(CC) $(CFLAGS) $(LINKER_FLAGS) $(INCLUDE_PATHS) $(SRC_FILES) -o $(BUILD_DIR)/$(OBJ_NAME)
 
 clean:
 	rm ./build/debug/rungraphics

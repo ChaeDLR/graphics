@@ -2,34 +2,17 @@
 #include <SDL2/SDL.h>
 #include <colors.h>
 #include <draw.h>
+#include <scene.h>
 
 #include <iostream>
-
-struct {
-  struct {
-    SDL_Window *window;
-    SDL_Renderer *renderer;
-  } Componenets;
-
-  struct {
-    SDL_DisplayMode mode;
-  } Info;
-} App;
 
 uint16_t halfw;
 uint16_t halfh;
 
+Scene scene;
 SDL_Event event;
 Pixel pix;
 Pixel pix2;
-
-/// @brief convert coordinate system
-/// @param x
-/// @param y
-inline void ConvertAxis(int &x, int &y) {
-  x += halfw;
-  y = halfh - y;
-}
 
 /// @brief cleanup render and window objects
 void Cleanup() {
@@ -52,12 +35,15 @@ int main(int argc, char *argv[]) {
 
   SDL_GetDesktopDisplayMode(0, &App.Info.mode);
 
+  scene.canvas.w = App.Info.mode.w / 2;
+  scene.canvas.h = App.Info.mode.h / 2;
+
   halfw = App.Info.mode.w / 4;
   halfh = App.Info.mode.h / 4;
 
   App.Componenets.window = SDL_CreateWindow(
-      "CDLR", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-      App.Info.mode.w / 2, App.Info.mode.h / 2,
+      "CDLR", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, scene.canvas.w,
+      scene.canvas.h,
       SDL_WindowFlags::SDL_WINDOW_SHOWN | SDL_WindowFlags::SDL_WINDOW_OPENGL);
 
   if (App.Componenets.window == nullptr) {
@@ -79,10 +65,10 @@ int main(int argc, char *argv[]) {
   }
 #pragma endregion
 
-  SDL_Color addedColor;
+  SDL_Color newColor;
   pix = {0, 0, colors.RED};
   pix2 = {0, 0, colors.BLUE};
-  ConvertAxis(pix.x, pix.y);
+  scene.ConvertAxis(pix.x, pix.y);
 
   for (;;) {
     SDL_SetRenderDrawColor(App.Componenets.renderer, colors.BLACK.r,
@@ -113,7 +99,8 @@ int main(int argc, char *argv[]) {
     }
 #pragma endregion
 
-    addedColor = AddColors(pix.color, pix2.color);
+    newColor = AddColors(pix.color, pix2.color);
+    SDL_Color originColor = SubColors(newColor, pix2.color);
     DrawPixel(pix.x, pix.y, pix.color, App.Componenets.renderer);
     SDL_RenderPresent(App.Componenets.renderer);
   }
